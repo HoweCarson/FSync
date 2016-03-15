@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.Win32;
 using FSync;
 
 namespace FSync
@@ -16,6 +17,7 @@ namespace FSync
 	/// </summary>
 	public partial class MainForm : Form
 	{
+		 RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 		        [StructLayout(LayoutKind.Sequential)]
 public struct DEV_BROADCAST_VOLUME
 {
@@ -64,13 +66,13 @@ protected override void WndProc(ref Message mes)
                                     {
                                         DEV_BROADCAST_VOLUME vol;
                                         vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(mes.LParam, typeof(DEV_BROADCAST_VOLUME));
-                                        MessageBox.Show("A storage device has been inserted, drive letter " + UnitName(vol.dbcv_unitmask));
+                                       // MessageBox.Show("A storage device has been inserted, drive letter " + UnitName(vol.dbcv_unitmask));
                                         check(UnitName(vol.dbcv_unitmask).ToString());
                                     }
                                 }
                                 break;
                             case DBT_DEVICEREMOVECOMPLETE:
-                                MessageBox.Show(" A Device has been removed from the system.");
+                                //MessageBox.Show(" A Device has been removed from the system.");
                                 break;
                         }
                         break;
@@ -99,9 +101,9 @@ char UnitName(int unitmaskname)
 }
 private void check(string Drive)
 {
-	if(System.IO.Directory.Exists(Drive + ":/Music"))
-	{MessageBox.Show("Your Directory Is accessible!");}
-	else{MessageBox.Show("This Directory doesn't exist!");}
+	//if(System.IO.Directory.Exists(Drive + ":/Music"))
+	//{MessageBox.Show("Your Directory Is accessible!");}
+	//else{MessageBox.Show("This Directory doesn't exist!");}
 }
 		void Button1Click(object sender, EventArgs e)
 		{
@@ -119,6 +121,21 @@ try {
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
+			try {
+				if (rkApp.GetValue("FSync") == null)
+            {
+                
+               rkApp.SetValue("FSync", Application.ExecutablePath.ToString());
+            }
+            else
+            {
+                // The value exists, the application is set to run at startup
+            }
+			} catch (Exception) {
+				
+				
+			}
+			
 			Rectangle workingArea = Screen.GetWorkingArea(this);
 this.Location = new Point(workingArea.Right - Size.Width, 
                           workingArea.Bottom - Size.Height);
