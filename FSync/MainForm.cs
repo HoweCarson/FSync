@@ -122,15 +122,14 @@ try {
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			try {
-				if (rkApp.GetValue("FSync") == null)
-            {
-                
+			if (rkApp.GetValue("FSync") == null)
+			{
                rkApp.SetValue("FSync", Application.ExecutablePath.ToString());
-            }
-            else
-            {
-                // The value exists, the application is set to run at startup
-            }
+			}
+			else
+			{
+				// The value exists, the application is set to run at startup
+			}
 			} catch (Exception) {
 				
 				
@@ -178,7 +177,7 @@ this.Location = new Point(workingArea.Right - Size.Width,
 		
         IEnumerable<System.IO.FileInfo> list1 = dir1.GetFiles("*.*",
         System.IO.SearchOption.AllDirectories);
-
+		//Checks to see if all files are accounted for
         IEnumerable<System.IO.FileInfo> list2 = dir2.GetFiles("*.*",
         System.IO.SearchOption.AllDirectories);
 
@@ -204,8 +203,11 @@ this.Location = new Point(workingArea.Right - Size.Width,
 
             if (!IsInDestination)
             {
-                System.IO.File.Copy(s.FullName, System.IO.Path.Combine(destinationPath, s.Name), true);
-                listBox1.Items.Add(s.Name);
+            if (!Directory.Exists(destinationPath + (s.DirectoryName.Replace(sourcePath.Replace(@"\\",@"\"), ""))))
+            	{ DirectoryInfo di = Directory.CreateDirectory(destinationPath + (s.DirectoryName.Replace(sourcePath.Replace(@"\\",@"\"), "")));}
+            	//System.IO.File.Copy(s.FullName, System.IO.Path.Combine(destinationPath + (s.FullName.Replace(sourcePath)), s.Name), true);
+            	System.IO.File.Copy(s.FullName,destinationPath + (s.FullName.Replace(sourcePath.Replace(@"\\",@"\"), "")), true);
+            	listBox1.Items.Add(s.Name);
             }
         }
 
@@ -236,14 +238,19 @@ this.Location = new Point(workingArea.Right - Size.Width,
 
                 if (!IsInSource)
                 {
-                    System.IO.File.Copy(s.FullName, System.IO.Path.Combine(sourcePath, s.Name), true);
+                	if (!Directory.Exists(sourcePath + (s.DirectoryName.Replace(destinationPath.Replace(@"\\",@"\"), ""))))
+                	{ DirectoryInfo di = Directory.CreateDirectory((sourcePath + (s.DirectoryName.Replace(destinationPath.Replace(@"\\", @"\"), ""))));}
+                    //System.IO.File.Copy(s.FullName, System.IO.Path.Combine(sourcePath, s.Name), true);
+                    System.IO.File.Copy(s.FullName,sourcePath + (s.FullName.Replace(destinationPath.Replace(@"\\", @"\"), "")), true);
                     listBox1.Items.Add(s.Name);
                 }
             }
         }
 					} 
-					catch (Exception) {
-			}
+					catch (Exception ex) 
+					{
+						
+					}
 					}
 				}
 		
