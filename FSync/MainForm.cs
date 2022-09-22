@@ -179,7 +179,7 @@ namespace FSync
 				sourcefolderlabel.Text = File.ReadAllText(Application.StartupPath + "/from.dat");
 				fileSystemWatcher1.Path = source1;
 				source1 = File.ReadAllText(Application.StartupPath + "/from.dat");
-				fileFolderList1.DefaultPath = File.ReadAllText(Application.StartupPath + "/from.dat");
+				fileFolderList1.DefaultPath = source1;
 				fileFolderList1.Load();
 				//richTextBox1.Text = File.ReadAllText(Application.StartupPath + "/selections.dat");
 				//richTextBox1.Text = richTextBox1.Text.Trim();
@@ -751,5 +751,10 @@ FadebackgroundWorker.RunWorkerAsync();
 			}
         
 		}
-	}
+
+        private void fileFolderList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace FSync
 {
- using System;
+    using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
     using System.IO;
@@ -59,7 +59,7 @@ namespace FSync
 
         public FileFolderList()
         {
-            
+
         }
 
         public void Load()
@@ -138,7 +138,7 @@ namespace FSync
 
                         item.ImageKey = fullname;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine(ex.Message);
                     }
@@ -149,7 +149,7 @@ namespace FSync
                 }
             }
         }
-        
+
         void bgIconLoader_DoWork(object sender, DoWorkEventArgs e)
         {
             string fullname = string.Empty;
@@ -319,7 +319,7 @@ namespace FSync
             foreach (string folder in Directory.GetDirectories(path))
             {
                 DirectoryInfo di = new DirectoryInfo(folder);
-                    
+
                 if (di.Attributes.ToString().Contains("System"))
                 {
                     continue;
@@ -501,7 +501,7 @@ namespace FSync
                 //Use this to get the large Icon
                 hImgLarge = SHGetFileInfo(fullpath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_LARGEICON);
                 ico = Icon.FromHandle(shinfo.hIcon);
-            }            
+            }
 
             return ico;
         }
